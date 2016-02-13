@@ -1,0 +1,16 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+Robotics VAR Word
+
+DEBUG "Program Running!"
+FREQOUT 3, 2000, 3000
+
+DO
+FOR Robotics= 1 TO 122
+HIGH 12
+HIGH 10
+PULSOUT 13, 650
+PULSOUT 12, 850
+PAUSE 20
+NEXT
+LOOP

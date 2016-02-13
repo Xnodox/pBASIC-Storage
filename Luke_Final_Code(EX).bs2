@@ -1,0 +1,110 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+irDetectRight VAR   Bit
+pulseCount VAR  Byte
+qtis       VAR  Nib
+Luke  VAR Word
+
+OUTB = %1111
+
+DO
+
+FREQOUT 10, 1, 38500
+  irDetectRight = IN11
+
+  DIRB = %1111
+  PAUSE 0
+  DIRB = %0000
+  PAUSE 0
+  qtis = INB
+
+  SELECT qtis
+
+    CASE %1000
+      GOSUB Back_Up
+      GOSUB Detonate_Mine
+
+    CASE %1100
+      GOSUB Back_up
+      GOSUB Detonate_Mine
+
+    CASE %0100
+      GOSUB Back_Up
+      GOSUB Detonate_Mine
+
+    CASE %0110
+      GOSUB Back_Up
+      GOSUB Detonate_Mine
+    CASE %0010
+      GOSUB Back_up
+      GOSUB Detonate_Mine
+    CASE %0011
+      GOSUB Back_Up
+      GOSUB Detonate_Mine
+    CASE %0001
+      GOSUB Back_up
+      GOSUB Detonate_Mine
+    CASE ELSE
+      GOSUB Forward_Pulse
+
+  ENDSELECT
+
+LOOP
+
+Back_Up:
+ PAUSE 20
+ FOR pulseCount = 0 TO 8
+    PULSOUT 13, 650
+    PULSOUT 12, 850
+  PAUSE 20
+  NEXT
+  RETURN
+
+
+Forward_Pulse:
+  PULSOUT 13, 850
+  PULSOUT 12, 735
+  PAUSE 20
+  RETURN
+
+Pivot_Left:
+  FOR pulseCount = 0 TO 16
+    PULSOUT 13, 650
+    PULSOUT 12, 700
+  PAUSE 20
+  NEXT
+  RETURN
+
+Detonate_Mine:
+
+FOR Luke = 1 TO 80
+
+  PULSOUT 15, 1300
+  PULSOUT 14, 750
+
+NEXT
+
+
+
+
+FOR Luke = 1 TO 40
+  PULSOUT 14, 1000
+  PAUSE 5
+
+NEXT
+
+
+FOR Luke = 1 TO 40
+  PULSOUT 14, 400
+  PAUSE 5
+NEXT
+
+FOR Luke = 1 TO 20
+
+  PULSOUT 15,650
+  PULSOUT 14, 250
+  PAUSE 10
+
+NEXT
+RETURN

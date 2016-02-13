@@ -1,0 +1,11 @@
+' Robotics with the Boe-Bot - AsciiName.bs2
+' Uses Acsii code with DEBUG to display a message
+
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+DEBUG CR,"What is 1+2+3+4?"
+DEBUG CR, "The answer is: "
+DEBUG DEC 1+2+3+4
+
+END

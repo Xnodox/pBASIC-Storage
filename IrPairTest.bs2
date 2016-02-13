@@ -1,0 +1,14 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+irDetectRight VAR Word
+
+DO
+
+  FREQOUT 0, 1, 13500
+  irDetectRight = IN10
+
+  DEBUG HOME, "irDetectRight = ", BIN1 irDetectRight
+
+
+LOOP

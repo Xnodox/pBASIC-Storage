@@ -1,0 +1,10 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+counter VAR Word
+
+FOR counter = 6 TO 24
+  HIGH 14
+  PULSOUT 12, 850
+  PAUSE 500
+NEXT

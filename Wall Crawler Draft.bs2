@@ -1,0 +1,82 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+DEBUG "Program Running!"
+
+chargeCount VAR Byte
+counter VAR Word
+old7 VAR Word
+old5 VAR Word
+move VAR Word
+
+counter = 1
+old7 = 0
+old5 = 1
+
+DO
+  IF (IN7 <> IN5) THEN
+    IF (old7 <> IN7) AND (old5 <> IN5) THEN
+      counter = counter + 1
+      old5 = IN5
+      old7 = IN7
+      IF (counter > 4) THEN
+        counter = 1
+        GOSUB Turn_Left
+        GOSUB Back_Up
+      ENDIF
+    ELSE
+      counter = 1
+    ENDIF
+  ENDIF
+
+  IF (IN5 = 0) AND (IN7 = 0) THEN
+    GOSUB Back_Up
+    GOSUB Turn_Corner
+  ELSEIF (IN7 = 0) THEN
+    GOSUB Back_Up
+    GOSUB Turn_Left
+  ELSEIF (IN5 = 0) THEN
+    GOSUB Back_Up
+    GOSUB Turn_Right
+  ELSE
+    GOSUB Forward_Pulse
+  ENDIF
+LOOP
+
+Forward_Pulse:
+  PULSOUT 13, 650
+  PULSOUT 12, 850
+  PAUSE 10
+  RETURN
+
+Turn_Left:
+  FOR chargeCount = 0 TO 17
+    PULSOUT 13, 650
+    PULSOUT 12, 650
+    PAUSE 20
+  NEXT
+  RETURN
+
+Turn_Right:
+  FOR chargeCount = 0 TO 17
+    PULSOUT 13, 850
+    PULSOUT 12, 850
+    PAUSE 20
+  NEXT
+  RETURN
+
+Turn_Corner:
+  FOR chargecount = 0 TO 10
+    PULSOUT 13, 850
+    PULSOUT 12, 850
+    PAUSE 20
+  NEXT
+  RETURN
+
+Back_Up:
+  FOR chargeCount = 0 TO 7
+    PULSOUT 13, 850
+    PULSOUT 12, 650
+    PAUSE 20
+  NEXT
+  RETURN

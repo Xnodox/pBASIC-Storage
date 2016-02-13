@@ -1,0 +1,140 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+DEBUG "Program Running!"
+
+qtis VAR Word
+chargeCount VAR Word
+irDetectLeft VAR Word
+irDetectRight VAR Word
+OUTB = %1111
+
+FREQOUT 9, 1000, 2938
+
+DO
+
+  FREQOUT 0, 1, 40000
+  irDetectRight = IN10
+
+  IF (irDetectRight = 0) THEN
+     GOSUB Back_Up
+     GOSUB Turn_Left
+  ELSE
+    GOSUB Forward_Pulse
+  ENDIF
+
+  DIRB = %1111
+  PAUSE 0
+  DIRB = %0000
+  PAUSE 0
+  qtis = INB
+
+  SELECT qtis
+
+   CASE %0001                       ' Rotate right
+      PULSOUT 9, 65000
+      GOSUB Back_Up
+      GOSUB Claw_Forward
+      GOSUB Turn_Right
+
+    CASE %0011                       ' Pivot right
+      PULSOUT 9, 65000
+      GOSUB Back_Up
+      GOSUB Claw_Forward
+      GOSUB Turn_Right
+
+    CASE %0010                       ' Curve right
+      PULSOUT 9, 65000
+      GOSUB Back_Up
+      GOSUB Claw_Forward
+      GOSUB Turn_Right
+
+    CASE %0110                       ' Straight ahead
+      PULSOUT 9, 65000
+      GOSUB Back_Up
+      GOSUB Claw_Forward
+      GOSUB Turn_Right
+
+    CASE %0100                       ' Curve left
+      PULSOUT 9, 65000
+      GOSUB Back_Up
+      GOSUB Claw_Forward
+      GOSUB Turn_Right
+
+    CASE %1100                       ' Pivot left
+      PULSOUT 9, 65000
+      GOSUB Back_Up
+      GOSUB Claw_Forward
+      GOSUB Turn_Right
+
+    CASE %1000                       ' Rotate left
+      PULSOUT 9, 65000
+      GOSUB Back_Up
+      GOSUB Claw_Forward
+      GOSUB Turn_Right
+
+    CASE ELSE                        ' Do nothing
+      PAUSE 3
+    ENDSELECT
+LOOP
+
+Forward_Pulse:
+  PULSOUT 13,825
+  PULSOUT 12,735
+  PAUSE 20
+  RETURN
+
+Turn_Left:
+  FOR chargeCount = 0 TO 12
+    PULSOUT 13, 750
+    PULSOUT 12, 650
+    PAUSE 20
+  NEXT
+  RETURN
+
+Turn_Right:
+  FOR chargeCount = 0 TO 12
+    PULSOUT 13, 830
+    PULSOUT 12, 750
+    PAUSE 20
+  NEXT
+  RETURN
+
+KickStarter:
+  FOR chargecount = 0 TO 17
+    PULSOUT 13, 850
+    PULSOUT 12, 750
+    PAUSE 20
+  NEXT
+  RETURN
+
+Back_Up:
+  FOR chargeCount = 0 TO 8
+    PULSOUT 13, 700
+    PULSOUT 12, 850
+    PAUSE 20
+  NEXT
+  RETURN
+
+Claw_Forward:
+  FOR chargeCount = 1 TO 80
+    PULSOUT 15, 1400
+    PULSOUT 14, 350
+    PAUSE 5
+  NEXT
+
+  FOR chargeCount = 1 TO 80
+     PULSOUT 14, 1000
+     PAUSE 5
+    NEXT
+
+  FOR chargeCount = 1 TO 80
+     PULSOUT 15, 250
+     PAUSE 5
+     NEXT
+  FOR chargeCount = 1 TO 20
+    PULSOUT 15,750
+    PULSOUT 14,250
+    PAUSE 5
+  NEXT
+  RETURN

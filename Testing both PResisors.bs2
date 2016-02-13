@@ -1,0 +1,26 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+timeleft VAR Word
+timeright VAR Word
+
+DEBUG "PHOTORESISTOR VALUES", CR,
+      "timeleft  timeright", CR,
+      "--------  ---------"
+
+DO
+  HIGH 6
+  PAUSE 3
+  RCTIME 6, 1, timeleft
+
+  HIGH 3
+  PAUSE 2
+  RCTIME 3, 1, timeright
+
+  DEBUG CRSRXY, 0, 3,
+        DEC5 timeleft,
+        "     ",
+        DEC5 timeright
+
+  PAUSE 100
+  LOOP

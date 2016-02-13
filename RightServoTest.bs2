@@ -1,0 +1,9 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+Robotics VAR Word
+DEBUG "Program Running!"
+
+DO
+PULSOUT 14, 750
+PULSOUT 15, 750
+LOOP

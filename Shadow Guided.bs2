@@ -1,0 +1,54 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+DEBUG "Program Rinning!"
+
+chargeCount VAR Byte
+
+FREQOUT 4, 2000, 3000
+
+DO
+  IF (IN6 = 0) AND (IN3 = 0) THEN
+    PULSOUT 13, 850
+    PULSOUT 12, 650
+  ELSEIF (IN6 = 0) THEN
+    PULSOUT 13, 750
+    PULSOUT 12, 650
+  ELSEIF (IN3 = 0) THEN
+    PULSOUT 13, 850
+    PULSOUT 12, 750
+  ELSE
+    PULSOUT 13, 750
+    PULSOUT 12, 750
+  ENDIF
+LOOP
+
+Forward_Pulse:
+  PULSOUT 13, 850
+  PULSOUT 12, 650
+  PAUSE 20
+  RETURN
+
+Turn_Left:
+  FOR chargeCount = 0 TO 20
+    PULSOUT 13, 650
+    PULSOUT 12, 650
+    PAUSE 20
+  NEXT
+  RETURN
+
+Turn_Right:
+  FOR chargeCount = 0 TO 20
+    PULSOUT 13, 850
+    PULSOUT 13, 850
+    PAUSE 20
+  NEXT
+  RETURN
+
+Back_Up:
+  FOR chargeCount = 0 TO 40
+    PULSOUT 13, 650
+    PULSOUT 12, 850
+    PAUSE 20
+  NEXT
+  RETURN

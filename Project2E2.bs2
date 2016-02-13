@@ -1,0 +1,9 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+counter VAR Word
+
+FOR counter = 6 TO 24
+  DEBUG ? counter
+  PAUSE 300
+NEXT

@@ -1,0 +1,83 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+DEBUG "Program Running!"
+
+chargeCount VAR Byte
+counter VAR Nib
+old7 VAR Bit
+old5 VAR Bit
+move VAR Word
+
+FREQOUT 4, 2000, 3000
+counter = 1
+old7 = 0
+old5 = 1
+
+DO
+  FREQOUT 3, 200, 3000
+  FREQOUT 3, 100, 4000
+  FREQOUT 3, 200, 5000
+  FREQOUT 3, 100, 2000
+  FREQOUT 3, 200, 1000
+
+  IF (IN7 <> IN5) THEN
+    IF (old7 <> IN7) AND (old5 <> IN5) THEN
+      counter = counter + 1
+      old5 = IN5
+      old7 = IN7
+      IF (counter > 4) THEN
+        counter = 1
+        GOSUB Back_Up
+        GOSUB Turn_Left
+        GOSUB Turn_Left
+      ENDIF
+    ELSE
+      counter = 1
+    ENDIF
+  ENDIF
+
+  IF (IN5 = 0) AND (IN7 = 0) THEN
+    GOSUB Back_Up
+    GOSUB Turn_Left
+    GOSUB Turn_Left
+  ELSEIF (IN7 = 0) THEN
+    GOSUB Back_Up
+    GOSUB Turn_Right
+  ELSEIF (IN7 = 0) THEN
+    GOSUB Back_Up
+    GOSUB Turn_Left
+  ELSE
+    GOSUB Forward_Pulse
+  ENDIF
+LOOP
+
+Forward_Pulse:
+  PULSOUT 13, 850
+  PULSOUT 12, 650
+  PAUSE 20
+  RETURN
+
+Turn_Left:
+  FOR chargeCount = 0 TO 20
+    PULSOUT 13, 650
+    PULSOUT 12, 650
+    PAUSE 20
+  NEXT
+  RETURN
+
+Turn_Right:
+  FOR chargeCount = 0 TO 20
+    PULSOUT 13, 850
+    PULSOUT 13, 850
+    PAUSE 20
+  NEXT
+  RETURN
+
+Back_Up:
+  FOR chargeCount = 0 TO 40
+    PULSOUT 13, 650
+    PULSOUT 12, 850
+    PAUSE 20
+  NEXT
+  RETURN

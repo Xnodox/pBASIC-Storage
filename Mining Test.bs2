@@ -1,0 +1,188 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+DEBUG "Program Rinning!"
+
+qtis VAR Word
+chargeCount VAR Word
+irDetectLeft VAR Word
+irDetectRight VAR Word
+OUTB = %1111
+
+FREQOUT 4, 2000, 3000
+
+DO
+  GOSUB Check_QTIs
+
+  FREQOUT 10, 1, 38500
+  irDetectRight = IN11
+
+  FREQOUT 2, 1, 38500
+  irDetectLeft = IN0
+
+  IF (irDetectRight = 0) AND (irDetectLeft = 0) THEN
+    GOSUB Back_Up
+    GOSUB KickStarter
+  ELSEIF (irDetectRight = 0) THEN
+    GOSUB Back_Up
+    GOSUB Turn_Left
+  ELSEIF (irDetectLeft = 0) THEN
+    GOSUB Back_Up
+    GOSUB Turn_Right
+  ELSE
+    GOSUB Forward_Pulse
+  ENDIF
+
+  SELECT qtis
+
+   CASE %0001                       ' Rotate right
+      FREQOUT 3, 6543, 3852
+      FREQOUT 3, 4958, 3294
+      FOR chargeCount = 0 TO 3
+      PULSOUT 13, 650
+      PULSOUT 12, 650
+      NEXT
+      GOSUB Back_Up
+      GOSUB Claw_Forward
+      GOSUB Claw_Reverse
+      GOSUB Back_Up
+      GOSUB Turn_Right
+
+    CASE %0011                       ' Pivot right
+      FREQOUT 3, 6543, 3852
+      FREQOUT 3, 4958, 3294
+      FOR chargeCount = 0 TO 3
+      PULSOUT 13, 750
+      PULSOUT 12, 650
+      NEXT
+      GOSUB Back_Up
+      GOSUB Claw_Forward
+      GOSUB Claw_Reverse
+      GOSUB Back_Up
+      GOSUB Turn_Right
+
+    CASE %0010                       ' Curve right
+      FREQOUT 3, 6543, 3852
+      FREQOUT 3, 4958, 3294
+      FOR chargeCount = 0 TO 3
+      PULSOUT 13, 800
+      PULSOUT 12, 650
+      NEXT
+      GOSUB Back_Up
+      GOSUB Claw_Forward
+      GOSUB Claw_Reverse
+      GOSUB Back_Up
+      GOSUB Turn_Right
+
+    CASE %0110                       ' Straight ahead
+      FREQOUT 3, 6543, 3852
+      FREQOUT 3, 4958, 3294
+      PULSOUT 13, 850
+      PULSOUT 12, 650
+      GOSUB Back_Up
+      GOSUB Claw_Forward
+      GOSUB Claw_Reverse
+      GOSUB Back_Up
+      GOSUB Turn_Right
+
+    CASE %0100                       ' Curve left
+      FREQOUT 3, 6543, 3852
+      FREQOUT 3, 4958, 3294
+      FOR chargeCount = 0 TO 3
+      PULSOUT 13, 850
+      PULSOUT 12, 700
+      NEXT
+      GOSUB Back_Up
+      GOSUB Claw_Forward
+      GOSUB Claw_Reverse
+      GOSUB Back_Up
+      GOSUB Turn_Left
+
+    CASE %1100                       ' Pivot left
+      FREQOUT 3, 6543, 3852
+      FREQOUT 3, 4958, 3294
+      FOR chargeCount = 0 TO 3
+      PULSOUT 13, 850
+      PULSOUT 12, 750
+      NEXT
+      GOSUB Back_Up
+      GOSUB Claw_Forward
+      GOSUB Claw_Reverse
+      GOSUB Back_Up
+      GOSUB Turn_Left
+
+    CASE %1000                       ' Rotate left
+      FREQOUT 3, 6543, 3852
+      FREQOUT 3, 4958, 3294
+      FOR chargeCount = 0 TO 3
+      PULSOUT 13, 850
+      PULSOUT 12, 850
+      NEXT
+      GOSUB Back_Up
+      GOSUB Claw_Forward
+      GOSUB Claw_Reverse
+      GOSUB Back_Up
+      GOSUB Turn_Left
+    CASE ELSE                        ' Do nothing
+      PAUSE 3
+    ENDSELECT
+LOOP
+
+Forward_Pulse:
+  PULSOUT 13, 850
+  PULSOUT 12, 650
+  PAUSE 10
+  RETURN
+
+Turn_Left:
+  FOR chargeCount = 0 TO 6
+    PULSOUT 13, 650
+    PULSOUT 12, 750
+    PAUSE 20
+  NEXT
+  RETURN
+
+Turn_Right:
+  FOR chargeCount = 0 TO 6
+    PULSOUT 13, 850
+    PULSOUT 12, 750
+    PAUSE 20
+  NEXT
+  RETURN
+
+KickStarter:
+  FOR chargecount = 0 TO 17
+    PULSOUT 13, 850
+    PULSOUT 12, 750
+    PAUSE 20
+  NEXT
+  RETURN
+
+Back_Up:
+  FOR chargeCount = 0 TO 10
+    PULSOUT 13, 700
+    PULSOUT 12, 850
+    PAUSE 20
+  NEXT
+  RETURN
+Claw_Forward:
+  FOR chargeCount = 1 TO 220
+    PULSOUT 14, 250
+    PULSOUT 15, 250
+    PAUSE 20
+  NEXT
+  RETURN
+Claw_Reverse:
+  FOR chargecount = 0 TO 220
+    PULSOUT 14, 1150
+    PULSOUT 15, 1150
+  NEXT
+  RETURN
+
+Check_QTIs:
+DIRB = %1111
+PAUSE 5
+DIRB = %0000
+PAUSE 5
+qtis = INB
+RETURN

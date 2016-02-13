@@ -1,0 +1,36 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+DEBUG "Program Running!"
+
+counter VAR Word
+chargeCount VAR Word
+addressOffset VAR Word
+instruction VAR Word
+chargeRight VAR Word
+chargeLeft VAR Word
+
+' addressOffset    0        2        4        6       8
+Charges_Count DATA  Word 64, Word 24, Word 24, Word 64 Word 0
+Charges_Left  DATA  Word 850, Word 650, Word 850, Word 650
+Charges_Right DATA  Word 650, Word 850, Word 850, Word 850
+
+FREQOUT 4, 2000, 3000
+
+DO
+
+  READ Charges_Count + addressOffset, Word chargeCount
+  READ Charges_Left + addressOffset, Word chargeLeft
+  READ Charges_Right + addressOffset, Word chargeRight
+
+  addressOffset = addressoffset + 2
+
+  FOR counter = 1 TO chargeCount
+    PULSOUT 13, chargeLeft
+    PULSOUT 12, chargeRight
+    PAUSE 20
+  NEXT
+
+LOOP UNTIL (chargeCount = 0)
+
+END

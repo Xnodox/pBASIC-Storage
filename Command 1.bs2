@@ -1,0 +1,16 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+DEBUG "hey
+DEBUG CR, "how is it going"
+DEBUG CR, "fine i guess"
+DEBUG CR, "well......."
+DEBUG CR, "soooo......"
+DEBUG CR, "really"
+DEBUG CR, "yeah"
+DEBUG CR, "what is 3+5?"
+DEBUG CR, "the answer is:"
+DEBUG CR, DEC 3+5
+DEBUG CR, "okay"
+DEBUG CR, "cool" 
+
+

@@ -1,0 +1,13 @@
+' Robotics with the Boe-Bot - PulseP12Led.bs2
+' BASIc Stamp flashes LED in pin 12 for 0.13 s.
+
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+DEBUG "Now running this program"
+
+DO
+PULSOUT 12, 65000
+PAUSE 2000
+LOOP
+

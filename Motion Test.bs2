@@ -1,0 +1,101 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+DEBUG "Program Rinning!"
+
+qtis VAR Word
+chargeCount VAR Word
+irDetectLeft VAR Word
+irDetectRight VAR Word
+
+FREQOUT 4, 2000, 3000
+
+DO
+      FOR chargeCount = 0 TO 20
+      PULSOUT 13, 650
+      PULSOUT 12, 650
+      NEXT
+      GOSUB Back_Up
+      GOSUB Turn_Right
+      FOR chargeCount = 0 TO 20
+      PULSOUT 13, 750
+      PULSOUT 12, 650
+      NEXT
+      GOSUB Back_Up
+      GOSUB Turn_Left
+      FOR chargeCount = 0 TO 10
+      PULSOUT 13, 800
+      PULSOUT 12, 650
+      NEXT
+      GOSUB Back_Up
+      GOSUB Turn_Right
+      FOR chargeCount = 0 TO 20
+      PULSOUT 13, 850
+      PULSOUT 12, 700
+      NEXT
+      GOSUB Back_Up
+      GOSUB Turn_Left
+      FOR chargeCount = 0 TO 20
+      PULSOUT 13, 850
+      PULSOUT 12, 750
+      NEXT
+      GOSUB Back_Up
+      GOSUB Turn_Right
+      FOR chargeCount = 0 TO 20
+      PULSOUT 13, 850
+      PULSOUT 12, 850
+      NEXT
+      GOSUB Back_Up
+      GOSUB Turn_Right
+
+LOOP
+
+Forward_Pulse:
+  PULSOUT 13, 650
+  PULSOUT 12, 850
+  PAUSE 10
+  RETURN
+
+Turn_Left:
+  FOR chargeCount = 0 TO 25
+    PULSOUT 13, 650
+    PULSOUT 12, 650
+    PAUSE 20
+  NEXT
+  RETURN
+
+Turn_Right:
+  FOR chargeCount = 0 TO 25
+    PULSOUT 13, 850
+    PULSOUT 12, 850
+    PAUSE 20
+  NEXT
+  RETURN
+
+Turn_Corner:
+  FOR chargecount = 0 TO 10
+    PULSOUT 13, 850
+    PULSOUT 12, 850
+    PAUSE 20
+  NEXT
+  RETURN
+
+Back_Up:
+  FOR chargeCount = 0 TO 15
+    PULSOUT 13, 850
+    PULSOUT 12, 650
+    PAUSE 20
+  NEXT
+  RETURN
+Claw_Forward:
+  FOR chargeCount = 0 TO 5
+    PULSOUT 14, 850
+    PULSOUT 15, 650
+  NEXT
+  RETURN
+Claw_Reverse:
+  FOR chargecount = 0 TO 3
+    PULSOUT 14, 650
+    PULSOUT 15, 850
+  NEXT
+  RETURN

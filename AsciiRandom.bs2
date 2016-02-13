@@ -1,0 +1,9 @@
+' Robotics with the Boe-Bot - AsciiName.bs2
+' Uses Acsii code with DEBUG to display a message
+
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+DEBUG 98,43,65,86,56,72,67,55,99,82,75,57
+
+END

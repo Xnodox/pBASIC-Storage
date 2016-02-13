@@ -1,0 +1,56 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+DEBUG "Program Running!"
+
+LeftAmbient CON 108
+rightAmbient CON 114
+LeftBright CON 20
+RightBright CON 22
+
+'                     Average                     Scale factor
+
+LeftThreshold CON    LeftBright + LeftAmbient  /2 * 5 / 8
+RightThreshold CON   RightBright + RightAmbient /2 * 5/ 8
+
+timeLeft VAR Word
+TimeRight VAR Word
+
+FREQOUT 4, 2000, 3000
+
+DO
+  GOSUB Test_Photoresistors
+  GOSUB Navigate
+
+LOOP
+
+Test_Photoresistors:
+  HIGH 6
+  PAUSE 3
+  RCTIME 6,3,timeLeft
+
+  HIGH 3
+  PAUSE 3
+  RCTIME 3,1,timeRight
+
+  RETURN
+
+Navigate:
+
+  IF (timeLeft < LeftThreshold) AND (timeRight < RightThreshold) THEN
+    PULSOUT 13, 850
+    PULSOUT 13, 650
+  ELSEIF (timeLeft < LeftThreshold) THEN
+    PULSOUT 13, 700
+    PULSOUT 12, 700
+  ELSEIF (timeRight < RightThreshold) THEN
+    PULSOUT 13, 800
+    PULSOUT 12, 800
+  ELSE
+    PULSOUT 13, 750
+    PULSOUT 12, 750
+  ENDIF
+
+  PAUSE 20
+
+  RETURN

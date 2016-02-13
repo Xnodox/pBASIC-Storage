@@ -1,0 +1,41 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+irDetectRight VAR Word
+pulseCount VAR Word
+
+DO
+  FREQOUT 10, 1, 38500
+  irDetectRight = IN11
+
+  IF (irDetectRight = 0) THEN
+    GOSUB Back_Up
+    GOSUB Pivot_Left
+
+  ELSE
+    GOSUB Forward_Pulse
+  ENDIF
+
+LOOP
+
+Back_Up:
+  FOR pulseCount = 0 TO 8
+    PULSOUT 13, 650
+    PULSOUT 12, 850
+  PAUSE 20
+  NEXT
+  RETURN
+
+Pivot_Left:
+  FOR pulseCount = 0 TO 8
+    PULSOUT 13, 650
+    PULSOUT 12, 700
+  PAUSE 20
+  NEXT
+  RETURN
+
+Forward_Pulse:
+  PULSOUT 13, 850
+  PULSOUT 12, 735
+  PAUSE 20
+  RETURN

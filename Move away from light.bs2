@@ -1,0 +1,55 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+timeLeft  VAR Word
+timeRight VAR Word
+average VAR Word
+difference VAR Word
+
+FREQOUT 4, 2000, 3000
+
+DO
+GOSUB Test_Photoresistors
+' For mismatched photoresistors, use Appendix F, uncomment and use next line.
+' timeleft = (timeLeft */ 376) + 9
+GOSUB Average_And_Difference
+GOSUB Navigate
+LOOP
+
+Test_Photoresistors:
+HIGH 6
+PAUSE 3
+RCTIME 6,3,timeLeft
+
+HIGH 3
+PAUSE 3
+RCTIME 3,1,timeRight
+
+RETURN
+
+Average_And_Difference:
+
+  average = timeRight + timeLeft/ 2
+  difference = average/ 3
+
+  RETURN
+
+Navigate:
+
+' Stronger shadow on left detector
+IF (timeLeft > timeRight + difference) THEN
+  PULSOUT 13, 850
+  PULSOUT 12, 850
+' Sronger on right detector
+ELSEIF (timeRight > timeLeft + difference) THEN
+  PULSOUT 13, 650
+  PULSOUT 12, 650
+' Same on both sides
+ELSE
+  PULSOUT 13, 850
+  PULSOUT 12, 650
+ENDIF
+
+PAUSE 10
+
+RETURN

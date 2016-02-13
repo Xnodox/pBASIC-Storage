@@ -1,0 +1,13 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+DEBUG "PHOTORESISTOR STATES", CR,
+      "Left     Right", CR,
+      "-------   -------"
+
+DO
+  DEBUG CRSRXY, 0, 3,
+        "P6  = ", BIN1 IN6,
+        "   P3 = ", BIN1 IN3
+  PAUSE 100
+LOOP

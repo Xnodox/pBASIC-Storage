@@ -1,0 +1,6 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+DO
+DEBUG "Running!"
+PAUSE 10000
+LOOP

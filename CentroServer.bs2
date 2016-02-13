@@ -1,0 +1,14 @@
+' Robotics with the Boe-Bot - CenterServoBothPins.bs2
+' BASIc Stamp sends 1.5ms pulses to the servo connected o P12
+
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+DEBUG "Now running this program"
+
+DO
+PULSOUT 12, 7500
+PULSOUT 13, 7500
+PAUSE 20
+LOOP
+

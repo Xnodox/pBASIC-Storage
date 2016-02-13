@@ -1,0 +1,10 @@
+' Robotics with the Noe-Bot - HelloBoeBotYourTurn.bs2
+' BASIc Stamp does simple math, and sends the result to the Debug Terminal
+
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+DEBUG "Hello, this is a message form your Boe-Bot."
+DEBUG "What's 7 X 11?", CR, "The answer is: ", DEC 7 * 11
+
+END

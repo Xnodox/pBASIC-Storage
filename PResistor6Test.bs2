@@ -1,0 +1,13 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+timeleft VAR Word
+
+DO
+  HIGH 6
+  PAUSE 2
+  RCTIME 6,1,timeleft
+
+  DEBUG HOME, "timeleft = ", DEC5 timeleft
+  PAUSE 100
+LOOP
